@@ -7,7 +7,7 @@ const Header = () => {
       <div className='flex justify-between items-center max-w-6xl mx-auto p-3'>
         <Link to="/">
           <h1 className='text-sm sm:text-3xl font-bold flex flex-wrap'>
-            <span className='text-amber-700'>265</span>
+            <span className='text-amber-700'>🏘️265</span>
             <span className='text-black-400'>Homes</span>
           </h1>
         </Link>
