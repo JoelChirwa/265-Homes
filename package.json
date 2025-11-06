@@ -1,0 +1,28 @@
+{
+  "name": "265-homes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoelChirwa/265-Homes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoelChirwa/265-Homes/issues"
+  },
+  "homepage": "https://github.com/JoelChirwa/265-Homes#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.3",
+    "nodemon": "^3.1.10"
+  }
+}
