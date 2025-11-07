@@ -20,7 +20,7 @@ const Header = () => {
         <ul className='flex space-x-4 font-bold'>
           <Link to="/" className='hidden sm:inline text-slate-900 hover:underline'>Home</Link>
           <Link to="/about" className='hidden sm:inline text-slate-900 hover:underline'>About</Link>
-          <Link to="/signin" className='text-slate-900 hover:underline'>Sign In</Link>
+          <Link to="/sign-in" className='text-slate-900 hover:underline'>Sign In</Link>
         </ul>
       </div>
 

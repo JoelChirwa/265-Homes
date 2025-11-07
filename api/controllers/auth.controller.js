@@ -7,8 +7,8 @@ export const signup = async (req, res, next) => {
  const hashedPassword = await bcryptjs.hash(password, 10);
  const newUser = new User({ username, email, password: hashedPassword });
  try {
-   await newUser.save();
-   res.status(201).send({ message: 'User registered successfully!' });
+  await newUser.save();
+  return res.status(201).json({ message: 'User registered successfully!' });
  } catch (error) {
     next(error);
  }
@@ -18,9 +18,9 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user && (await bcryptjs.compare(password, user.password))) {
-    res.send('User logged in!');
+    return res.json({ message: 'User logged in!' });
   } else {
-    res.status(401).send('Invalid credentials');
+    return res.status(401).json({ message: 'Invalid credentials' });
   }
 };
 
