@@ -49,8 +49,8 @@ const SignUp = () => {
        </form>
        <div className='flex mt-5 gap-2'>
         <p>Already have an account?</p>
-        <Link to="/log-in">
-          <span className='text-blue-700 hover:underline'>Log In</span>
+        <Link to="/sign-in">
+          <span className='text-blue-700 hover:underline'>Sign In</span>
         </Link>
        </div>
        {errors && <p className='text-red-500 mt-4'>{errors}</p>}
