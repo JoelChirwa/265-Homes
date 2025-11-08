@@ -13,11 +13,15 @@ export const signup = async (req, res, next) => {
 			return next(errorHandler(400, 'username, email and password are required'));
 		}
 
-		// Check for existing user by email or username
-		const existing = await User.findOne({ $or: [{ email }, { username }] });
-		if (existing) {
-			return next(errorHandler(409, 'User with that email or username already exists'));
-		}
+    // Check if email or username already exists and return a specific message
+    const emailExists = await User.findOne({ email });
+    if (emailExists) {
+      return next(errorHandler(409, 'User with that email already exists'));
+    }
+    const usernameExists = await User.findOne({ username });
+    if (usernameExists) {
+      return next(errorHandler(409, 'User with that username already exists'));
+    }
 
 		// Hash password
 		const salt = await bcrypt.genSalt(10);
@@ -46,7 +50,7 @@ export const signin = async (req, res, next) => {
 
 		const user = await User.findOne({ email });
 		if (!user) {
-			return next(errorHandler(401, 'Invalid credentials'));
+			return next(errorHandler(404, 'User not found'));
 		}
 
 		const isMatch = await bcrypt.compare(password, user.password);
@@ -57,16 +61,26 @@ export const signin = async (req, res, next) => {
 		const userObj = user.toObject();
 		delete userObj.password;
 
-	
-			const token = jwt.sign(
-				{ userId: user._id, email: user.email },
-				process.env.JWT_SECRET
-			);
-      const { password: pwd, ...userWithoutPassword } = userObj;
-			return res
-				.cookie('token', token, { httpOnly: true })
-				.status(200)
-				.json({ success: true, user: userWithoutPassword });
+		// Sign token with expiration
+		const token = jwt.sign(
+			{ userId: user._id, email: user.email },
+			process.env.JWT_SECRET || 'change-me',
+			{ expiresIn: '7d' }
+		);
+
+		// Cookie options - secure in production
+		const cookieOptions = {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'lax',
+			maxAge: 7 * 24 * 60 * 60 * 1000
+		};
+
+		const { password: pwd, ...userWithoutPassword } = userObj;
+		return res
+			.cookie('token', token, cookieOptions)
+			.status(200)
+			.json({ success: true, user: userWithoutPassword });
 
 	} catch (err) {
 		return next(errorHandler(err.statusCode || 500, err.message || 'Failed to login'));

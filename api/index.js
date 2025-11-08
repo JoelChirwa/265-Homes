@@ -19,6 +19,8 @@ app.use((req, res, next) => {
   // adjust or make configurable if you need other origins
   res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  // Allow cookies to be sent cross-origin (needed when using httpOnly cookies)
+  res.header('Access-Control-Allow-Credentials', 'true');
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH');
     return res.sendStatus(200);
